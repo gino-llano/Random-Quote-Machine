@@ -1,23 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import QuoteBox from './components/QuoteBox.jsx';
+import { quotes } from './Quotes';
+import { useState } from 'react';
 
-function App() {
+const randomQuotes = [];
+const length = quotes.length
+for (let i=0; i<length; i++)
+{
+  const j = Math.floor(Math.random() * quotes.length);
+  const quote = quotes.splice(j, 1);
+  randomQuotes.push(quote[0]);
+}
+
+function App()
+{
+  const [index, updateIndex] = useState(0);
+  function nextQuote()
+  {
+    updateIndex((index + 1) % randomQuotes.length);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" >
+      <QuoteBox
+      quote={randomQuotes[index]}
+      nextQuote={nextQuote}
+      />
     </div>
   );
 }
